@@ -1,7 +1,1014 @@
-<html>
-  <body>
-<h1>
-Hi I am the web
-</h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experimental Typographic Studio</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;800;900&family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Space+Grotesk:wght@300;500;700&family=Syne:wght@400;700;800&family=UnifrakturMaguntia&family=Work+Sans:wght@200;400;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #d1d5db;
+      user-select: none;
+    }
+
+    /* Custom Scrollbar for Controls */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    /* Custom Red Slider matching the mockup image */
+    input[type=range].custom-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type=range].custom-slider:focus {
+      outline: none;
+    }
+
+    input[type=range].custom-slider::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 10px;
+      cursor: pointer;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    input[type=range].custom-slider::-webkit-slider-thumb {
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: #e53e3e;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -7px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+      transition: transform 0.1s ease, background-color 0.1s ease;
+    }
+
+    input[type=range].custom-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: #c53030;
+    }
+
+    input[type=range].custom-slider::-moz-range-track {
+      width: 100%;
+      height: 10px;
+      cursor: pointer;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    input[type=range].custom-slider::-moz-range-thumb {
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: #e53e3e;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Glass pill button from mockup */
+    .btn-pill-upload {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .btn-pill-upload:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-pill-upload:active {
+      transform: translateY(1px);
+    }
+
+    /* Live typography viewport styles */
+    .typography-viewport {
+      background-color: #EAEAEA;
+      background-image: 
+        radial-gradient(#d1d5db 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* SVG Filter based distortion container */
+    .text-effect-container {
+      transition: all 0.05s linear;
+      transform-origin: center center;
+      word-break: break-word;
+    }
+
+    /* Editable Text Focus state */
+    .editable-text-field:focus {
+      outline: 2px dashed #e53e3e;
+      outline-offset: 8px;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen overflow-hidden p-3 md:p-6 bg-slate-300 flex flex-col justify-center items-center">
+
+  <!-- Main Container -->
+  <div class="w-full max-w-[1600px] h-full flex flex-col md:flex-row gap-4 md:gap-6 items-stretch">
+    
+    <!-- LEFT SIDEBAR: Golden Orange Control Panel (matches exact visual mockup) -->
+    <div class="w-full md:w-[360px] lg:w-[400px] bg-[#FFBA40] rounded-[28px] p-6 flex flex-col shadow-xl border border-yellow-300/40 shrink-0 h-full overflow-hidden">
+      
+      <!-- Top Upload / Load Action -->
+      <div class="mb-6 flex flex-col gap-2">
+        <label for="file-upload" class="btn-pill-upload cursor-pointer w-full py-2.5 px-6 rounded-full text-center text-slate-800 font-medium text-lg flex items-center justify-center gap-2 select-none">
+          <i data-lucide="upload" class="w-5 h-5 text-slate-700"></i>
+          <span>Upload</span>
+        </label>
+        <input id="file-upload" type="file" accept=".txt,image/*" class="hidden" />
+        <p class="text-[11px] text-amber-900/60 text-center font-medium">Load .txt text or custom background image</p>
+      </div>
+
+      <!-- Scrollable Controls Container -->
+      <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-5">
+
+        <!-- ANIMATION CONTROLS SECTION -->
+        <div class="bg-amber-500/20 p-3.5 rounded-2xl border border-amber-900/10 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-950 flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-red-600"></i> Animation Engine
+            </span>
+            <button id="btn-toggle-play" onclick="togglePlay()" class="bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full shadow transition flex items-center justify-center">
+              <i id="icon-play" data-lucide="play" class="w-4 h-4 fill-current"></i>
+            </button>
+          </div>
+
+          <!-- Animation Mode Selector -->
+          <div>
+            <label class="block text-[11px] font-semibold text-amber-950/80 mb-1">Animation Effect</label>
+            <select id="select-anim-mode" class="w-full bg-amber-100/80 border border-amber-900/20 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 font-medium focus:outline-none">
+              <option value="none">None (Static)</option>
+              <option value="wave" selected>Kinetic Wave (Sine Ripple)</option>
+              <option value="breath">Typography Breath & Pulse</option>
+              <option value="glitch">Glitch & Variable Warp</option>
+              <option value="blurMelt">Blur & Focus Melt</option>
+              <option value="liquid">Liquid Flow & Drift</option>
+              <option value="chaos">Chaos & Particle Dispersion</option>
+            </select>
+          </div>
+
+          <!-- Animation Speed Slider -->
+          <div class="space-y-1">
+            <div class="flex justify-between items-center">
+              <label class="text-xs font-medium text-slate-900">Speed</label>
+              <span class="text-xs font-mono text-amber-900/70" id="val-anim-speed">1.0x</span>
+            </div>
+            <input type="range" id="slider-anim-speed" min="0.1" max="3.0" value="1.0" step="0.1" class="custom-slider">
+          </div>
+
+          <!-- Animation Amplitude / Intensity -->
+          <div class="space-y-1">
+            <div class="flex justify-between items-center">
+              <label class="text-xs font-medium text-slate-900">Amplitude / Intensity</label>
+              <span class="text-xs font-mono text-amber-900/70" id="val-anim-amp">50%</span>
+            </div>
+            <input type="range" id="slider-anim-amp" min="0" max="100" value="50" step="1" class="custom-slider">
+          </div>
+        </div>
+
+        <!-- PRIMARY FEATURE FROM MOCKUP: Blur / Blurness -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between items-center">
+            <label class="text-2xl font-normal text-slate-900 tracking-tight capitalize" id="label-blurness">blurness</label>
+            <span class="text-xs font-mono font-semibold text-amber-900/70" id="val-blur">0px</span>
+          </div>
+          <input type="range" id="slider-blur" min="0" max="25" value="0" step="0.5" class="custom-slider">
+        </div>
+
+        <hr class="border-amber-900/10">
+
+        <!-- Preset Styles Selector -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-amber-950/70 mb-2">Typography Presets</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="applyPreset('brutalist')" class="bg-amber-500/30 hover:bg-amber-500/50 text-slate-900 font-medium text-xs py-2 px-3 rounded-xl border border-amber-600/20 text-left transition">⚡ Brutalist</button>
+            <button onclick="applyPreset('kinetic')" class="bg-amber-500/30 hover:bg-amber-500/50 text-slate-900 font-medium text-xs py-2 px-3 rounded-xl border border-amber-600/20 text-left transition">🌀 Kinetic Blur</button>
+            <button onclick="applyPreset('cyber')" class="bg-amber-500/30 hover:bg-amber-500/50 text-slate-900 font-medium text-xs py-2 px-3 rounded-xl border border-amber-600/20 text-left transition">🔴 Chromatic</button>
+            <button onclick="applyPreset('wave')" class="bg-amber-500/30 hover:bg-amber-500/50 text-slate-900 font-medium text-xs py-2 px-3 rounded-xl border border-amber-600/20 text-left transition">🌊 Wave Form</button>
+            <button onclick="applyPreset('deconstruct')" class="bg-amber-500/30 hover:bg-amber-500/50 text-slate-900 font-medium text-xs py-2 px-3 rounded-xl border border-amber-600/20 text-left transition">🧩 Deconstruct</button>
+            <button onclick="applyPreset('liquid')" class="bg-amber-500/30 hover:bg-amber-500/50 text-slate-900 font-medium text-xs py-2 px-3 rounded-xl border border-amber-600/20 text-left transition">💧 Liquid Mesh</button>
+          </div>
+        </div>
+
+        <!-- Font Family Picker -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-amber-950/70 mb-1.5">Typeface</label>
+          <select id="select-font" class="w-full bg-amber-100/60 border border-amber-900/20 rounded-xl px-3 py-2 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-red-500">
+            <option value="'Inter', sans-serif">Inter (Modern Sans)</option>
+            <option value="'Syne', sans-serif" selected>Syne (Display Sans)</option>
+            <option value="'Space Grotesk', sans-serif">Space Grotesk (Tech)</option>
+            <option value="'Playfair Display', serif">Playfair Display (Editorial Serif)</option>
+            <option value="'Cinzel', serif">Cinzel (Classical)</option>
+            <option value="'Work Sans', sans-serif">Work Sans (Clean)</option>
+            <option value="'UnifrakturMaguntia', cursive">Unifraktur (Gothic)</option>
+          </select>
+        </div>
+
+        <!-- Font Size -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-semibold text-slate-900">Font Size</label>
+            <span class="text-xs font-mono text-amber-900/70" id="val-fontsize">48px</span>
+          </div>
+          <input type="range" id="slider-fontsize" min="16" max="120" value="48" step="1" class="custom-slider">
+        </div>
+
+        <!-- Line Spacing -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-semibold text-slate-900">Line Height</label>
+            <span class="text-xs font-mono text-amber-900/70" id="val-lineheight">1.1</span>
+          </div>
+          <input type="range" id="slider-lineheight" min="0.6" max="2.5" value="1.1" step="0.05" class="custom-slider">
+        </div>
+
+        <!-- Letter Spacing -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-semibold text-slate-900">Letter Spacing</label>
+            <span class="text-xs font-mono text-amber-900/70" id="val-letterspacing">2px</span>
+          </div>
+          <input type="range" id="slider-letterspacing" min="-10" max="50" value="2" step="1" class="custom-slider">
+        </div>
+
+        <!-- Font Weight -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-semibold text-slate-900">Font Weight</label>
+            <span class="text-xs font-mono text-amber-900/70" id="val-weight">800</span>
+          </div>
+          <input type="range" id="slider-weight" min="200" max="900" value="800" step="100" class="custom-slider">
+        </div>
+
+        <hr class="border-amber-900/10">
+        <label class="block text-xs font-bold uppercase tracking-wider text-amber-950/70">Experimental Effects</label>
+
+        <!-- Chromatic Aberration Shift -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-semibold text-slate-900">RGB Shift / Glitch</label>
+            <span class="text-xs font-mono text-amber-900/70" id="val-rgb">0px</span>
+          </div>
+          <input type="range" id="slider-rgb" min="0" max="30" value="0" step="1" class="custom-slider">
+        </div>
+
+        <!-- Skew / Perspective Distortion -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-semibold text-slate-900">Skew & Angle</label>
+            <span class="text-xs font-mono text-amber-900/70" id="val-skew">0°</span>
+          </div>
+          <input type="range" id="slider-skew" min="-45" max="45" value="0" step="1" class="custom-slider">
+        </div>
+
+        <!-- Wave Distortion Frequency -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-semibold text-slate-900">Wave Distortion</label>
+            <span class="text-xs font-mono text-amber-900/70" id="val-wave">0</span>
+          </div>
+          <input type="range" id="slider-wave" min="0" max="50" value="0" step="1" class="custom-slider">
+        </div>
+
+        <!-- Text Color & Background Controls -->
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-900 mb-1">Text Color</label>
+            <div class="flex items-center gap-2">
+              <input type="color" id="color-text" value="#111827" class="w-9 h-9 rounded-lg border-0 cursor-pointer bg-transparent">
+              <span class="text-xs font-mono text-slate-800" id="hex-text">#111827</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-900 mb-1">Canvas BG</label>
+            <div class="flex items-center gap-2">
+              <input type="color" id="color-bg" value="#EAEAEA" class="w-9 h-9 rounded-lg border-0 cursor-pointer bg-transparent">
+              <span class="text-xs font-mono text-slate-800" id="hex-bg">#EAEAEA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Editing Textarea -->
+        <div class="pt-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-amber-950/70 mb-1">Source Paragraph</label>
+          <textarea id="input-text" rows="3" class="w-full bg-amber-100/60 border border-amber-900/20 rounded-xl p-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-500 resize-none font-mono">FORM FOLLOWS DISTORTION. TYPOGRAPHY IS NOT MERELY LEGIBILITY; IT IS AN EMOTIONAL RHYTHM IN SPACE AND TIME.</textarea>
+        </div>
+
+      </div>
+
+      <!-- Footer Export Actions -->
+      <div class="mt-4 pt-3 border-t border-amber-900/10 flex flex-col gap-2">
+        <div class="flex gap-2">
+          <button onclick="resetControls()" class="w-1/3 bg-amber-200/50 hover:bg-amber-200 text-slate-800 font-medium text-xs py-2 rounded-xl border border-amber-900/10 transition flex items-center justify-center gap-1">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset
+          </button>
+          <button onclick="exportImage()" class="w-2/3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs py-2 rounded-xl shadow-md transition flex items-center justify-center gap-1.5">
+            <i data-lucide="camera" class="w-3.5 h-3.5"></i> Export Frame
+          </button>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="recordAndDownloadVideo()" id="btn-record" class="w-1/2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 rounded-xl shadow-lg hover:shadow-red-500/30 transition-all duration-200 flex items-center justify-center gap-1.5 active:scale-95">
+            <i data-lucide="download" class="w-4 h-4"></i> Download Video
+          </button>
+          <button onclick="copyCSSCode()" class="w-1/2 bg-amber-100 hover:bg-white text-slate-900 font-semibold text-xs py-2 rounded-xl border border-amber-900/20 shadow-sm transition flex items-center justify-center gap-1.5">
+            <i data-lucide="code" class="w-3.5 h-3.5"></i> Copy CSS
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT CANVAS PANEL: Soft Light Grey Canvas Preview (matches mockup right area) -->
+    <div id="canvas-container" class="flex-1 bg-[#EAEAEA] rounded-[28px] relative overflow-hidden flex items-center justify-center p-8 md:p-12 shadow-inner border border-white/60 transition-colors duration-300">
+      
+      <!-- Canvas Controls Top-Right Overlay -->
+      <div class="absolute top-6 right-6 z-20 flex items-center gap-2 bg-white/40 backdrop-blur-md p-1.5 rounded-2xl border border-white/50 shadow-sm">
+        <button onclick="toggleAlign('left')" title="Align Left" class="p-2 hover:bg-white/60 rounded-xl text-slate-700 transition"><i data-lucide="align-left" class="w-4 h-4"></i></button>
+        <button onclick="toggleAlign('center')" title="Align Center" class="p-2 hover:bg-white/60 rounded-xl text-slate-700 transition"><i data-lucide="align-center" class="w-4 h-4"></i></button>
+        <button onclick="toggleAlign('right')" title="Align Right" class="p-2 hover:bg-white/60 rounded-xl text-slate-700 transition"><i data-lucide="align-right" class="w-4 h-4"></i></button>
+        <div class="h-4 w-px bg-slate-400/30 mx-1"></div>
+        <button onclick="toggleBlendMode()" title="Toggle Mix-Blend-Mode" class="px-2.5 py-1 text-xs font-semibold hover:bg-white/60 rounded-xl text-slate-700 transition flex items-center gap-1">
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i> <span id="blend-mode-label">Normal</span>
+        </button>
+      </div>
+
+      <!-- Subtle background uploaded image element -->
+      <div id="bg-image-layer" class="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none hidden"></div>
+
+      <!-- Interactive SVG Ripple/Wave Filter definition -->
+      <svg class="hidden" width="0" height="0">
+        <defs>
+          <filter id="wave-filter">
+            <feTurbulence id="fe-turbulence" type="fractalNoise" baseFrequency="0.0" numOctaves="2" result="warp" />
+            <feDisplacementMap id="fe-displacement" xChannelSelector="R" yChannelSelector="G" scale="0" in="SourceGraphic" in2="warp" />
+          </filter>
+        </defs>
+      </svg>
+
+      <!-- LIVE TYPOGRAPHY DISPLAY -->
+      <div class="relative max-w-4xl w-full flex justify-center items-center">
+        <!-- Chromatic Red Ghost Layer -->
+        <div id="text-layer-red" class="text-effect-container absolute inset-0 pointer-events-none select-none text-red-600 mix-blend-screen opacity-0" style="filter: blur(0px);"></div>
+        <!-- Chromatic Blue Ghost Layer -->
+        <div id="text-layer-blue" class="text-effect-container absolute inset-0 pointer-events-none select-none text-cyan-400 mix-blend-screen opacity-0" style="filter: blur(0px);"></div>
+
+        <!-- Main Editable Typography Layer -->
+        <div 
+          id="text-output" 
+          contenteditable="true" 
+          spellcheck="false"
+          class="editable-text-field text-effect-container relative z-10 w-full text-center focus:outline-none transition-all cursor-text text-slate-900 font-extrabold tracking-normal"
+          style="font-family: 'Syne', sans-serif; font-size: 48px; line-height: 1.1; letter-spacing: 2px;"
+        >
+          FORM FOLLOWS DISTORTION. TYPOGRAPHY IS NOT MERELY LEGIBILITY; IT IS AN EMOTIONAL RHYTHM IN SPACE AND TIME.
+        </div>
+      </div>
+
+      <!-- Quick Canvas Tip Hint -->
+      <div class="absolute bottom-6 left-6 text-[11px] font-mono text-slate-400 pointer-events-none flex items-center gap-1.5">
+        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+        <span>Tip: You can directly click and edit text inside the preview screen</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-xl shadow-xl transition-all duration-300 opacity-0 transform translate-y-4 pointer-events-none z-50 flex items-center gap-2">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-message">Notification</span>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Animation System State
+    let isPlaying = true;
+    let animationFrameId = null;
+    let clock = 0;
+
+    // DOM Element References
+    const sliderBlur = document.getElementById('slider-blur');
+    const sliderFontSize = document.getElementById('slider-fontsize');
+    const sliderLineHeight = document.getElementById('slider-lineheight');
+    const sliderLetterSpacing = document.getElementById('slider-letterspacing');
+    const sliderWeight = document.getElementById('slider-weight');
+    const sliderRGB = document.getElementById('slider-rgb');
+    const sliderSkew = document.getElementById('slider-skew');
+    const sliderWave = document.getElementById('slider-wave');
+    const selectFont = document.getElementById('select-font');
+    const colorText = document.getElementById('color-text');
+    const colorBg = document.getElementById('color-bg');
+    const inputText = document.getElementById('input-text');
+
+    const selectAnimMode = document.getElementById('select-anim-mode');
+    const sliderAnimSpeed = document.getElementById('slider-anim-speed');
+    const sliderAnimAmp = document.getElementById('slider-anim-amp');
+    const valAnimSpeed = document.getElementById('val-anim-speed');
+    const valAnimAmp = document.getElementById('val-anim-amp');
+    const btnTogglePlay = document.getElementById('btn-toggle-play');
+
+    const textOutput = document.getElementById('text-output');
+    const textLayerRed = document.getElementById('text-layer-red');
+    const textLayerBlue = document.getElementById('text-layer-blue');
+    const canvasContainer = document.getElementById('canvas-container');
+    const bgImageLayer = document.getElementById('bg-image-layer');
+    const fileUpload = document.getElementById('file-upload');
+    const feDisplacement = document.getElementById('fe-displacement');
+    const feTurbulence = document.getElementById('fe-turbulence');
+
+    // Display Value Labels
+    const valBlur = document.getElementById('val-blur');
+    const valFontSize = document.getElementById('val-fontsize');
+    const valLineHeight = document.getElementById('val-lineheight');
+    const valLetterSpacing = document.getElementById('val-letterspacing');
+    const valWeight = document.getElementById('val-weight');
+    const valRGB = document.getElementById('val-rgb');
+    const valSkew = document.getElementById('val-skew');
+    const valWave = document.getElementById('val-wave');
+    const hexText = document.getElementById('hex-text');
+    const hexBg = document.getElementById('hex-bg');
+
+    let currentTextAlign = 'center';
+    let currentBlendMode = 'normal';
+
+    // Split Text into spans for character-based kinetic wave/particle effects
+    function renderCharacterSpans(text) {
+      const mode = selectAnimMode.value;
+      if (mode === 'wave' || mode === 'liquid' || mode === 'chaos' || mode === 'glitch') {
+        const chars = text.split('');
+        return chars.map((ch, idx) => `<span class="char-span inline-block transition-transform duration-75" data-idx="${idx}">${ch === ' ' ? '&nbsp;' : ch}</span>`).join('');
+      }
+      return text;
+    }
+
+    // Toggle Play/Pause Animation
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      const icon = document.getElementById('icon-play');
+      if (isPlaying) {
+        icon.setAttribute('data-lucide', 'pause');
+        animateLoop();
+      } else {
+        icon.setAttribute('data-lucide', 'play');
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      }
+      lucide.createIcons();
+    }
+
+    // Animation Render Loop
+    function animateLoop() {
+      if (!isPlaying) return;
+
+      const speed = parseFloat(sliderAnimSpeed.value);
+      const amp = parseFloat(sliderAnimAmp.value) / 100;
+      const mode = selectAnimMode.value;
+
+      clock += 0.03 * speed;
+
+      if (mode !== 'none') {
+        applyDynamicAnimation(mode, clock, amp);
+      }
+
+      animationFrameId = requestAnimationFrame(animateLoop);
+    }
+
+    // Calculate dynamic animation frame values
+    function applyDynamicAnimation(mode, t, amp) {
+      const baseBlur = parseFloat(sliderBlur.value);
+      const baseFontSize = parseFloat(sliderFontSize.value);
+      const baseLetterSpacing = parseFloat(sliderLetterSpacing.value);
+      const baseWeight = parseInt(sliderWeight.value);
+      const baseWave = parseFloat(sliderWave.value);
+      const baseSkew = parseFloat(sliderSkew.value);
+      const baseRGB = parseFloat(sliderRGB.value);
+
+      if (mode === 'breath') {
+        const breathScale = 1 + Math.sin(t) * 0.12 * amp;
+        const letterSpacingDyn = baseLetterSpacing + Math.cos(t * 0.8) * 8 * amp;
+        textOutput.style.transform = `skewX(${baseSkew}deg) scale(${breathScale})`;
+        textOutput.style.letterSpacing = `${letterSpacingDyn}px`;
+      } 
+      else if (mode === 'blurMelt') {
+        const dynBlur = Math.max(0, baseBlur + (Math.sin(t * 1.5) + 1) * 6 * amp);
+        textOutput.style.filter = `blur(${dynBlur}px) ${baseWave > 0 ? 'url(#wave-filter)' : ''}`;
+      } 
+      else if (mode === 'glitch') {
+        const charSpans = textOutput.querySelectorAll('.char-span');
+        charSpans.forEach((span, i) => {
+          if (Math.random() < 0.1 * amp) {
+            const jitterX = (Math.random() - 0.5) * 12 * amp;
+            const jitterY = (Math.random() - 0.5) * 12 * amp;
+            const dynWeight = Math.min(900, Math.max(200, baseWeight + (Math.random() - 0.5) * 400 * amp));
+            span.style.transform = `translate(${jitterX}px, ${jitterY}px)`;
+            span.style.fontWeight = dynWeight;
+          } else {
+            span.style.transform = 'translate(0px, 0px)';
+            span.style.fontWeight = baseWeight;
+          }
+        });
+        const dynRGB = baseRGB + (Math.random() > 0.85 ? 15 * amp : 0);
+        sliderRGB.value = dynRGB;
+      } 
+      else if (mode === 'wave') {
+        const charSpans = textOutput.querySelectorAll('.char-span');
+        charSpans.forEach((span, i) => {
+          const yOffset = Math.sin(t * 3 + i * 0.3) * 20 * amp;
+          const rot = Math.cos(t * 2 + i * 0.2) * 10 * amp;
+          span.style.transform = `translateY(${yOffset}px) rotate(${rot}deg)`;
+        });
+      } 
+      else if (mode === 'liquid') {
+        const dynWave = baseWave + (Math.sin(t * 2) + 1) * 20 * amp;
+        feDisplacement.setAttribute('scale', dynWave * 1.5);
+        feTurbulence.setAttribute('baseFrequency', dynWave > 0 ? (0.01 + Math.cos(t) * 0.01) : '0');
+        textOutput.style.transform = `skewX(${baseSkew + Math.sin(t) * 8 * amp}deg) rotate(${Math.cos(t * 0.5) * 4 * amp}deg)`;
+      } 
+      else if (mode === 'chaos') {
+        const charSpans = textOutput.querySelectorAll('.char-span');
+        charSpans.forEach((span, i) => {
+          const x = Math.sin(t * 1.2 + i * 0.5) * 35 * amp;
+          const y = Math.cos(t * 1.5 + i * 0.7) * 35 * amp;
+          const scale = 1 + Math.sin(t + i) * 0.4 * amp;
+          span.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+        });
+      }
+    }
+
+    // Update typography live styling
+    function updateTypography() {
+      const blurVal = parseFloat(sliderBlur.value);
+      const fontSizeVal = sliderFontSize.value + 'px';
+      const lineHeightVal = sliderLineHeight.value;
+      const letterSpacingVal = sliderLetterSpacing.value + 'px';
+      const weightVal = sliderWeight.value;
+      const rgbVal = parseFloat(sliderRGB.value);
+      const skewVal = sliderSkew.value;
+      const waveVal = parseFloat(sliderWave.value);
+      const fontFamilyVal = selectFont.value;
+      const textColorVal = colorText.value;
+      const bgColorVal = colorBg.value;
+
+      valAnimSpeed.textContent = `${parseFloat(sliderAnimSpeed.value).toFixed(1)}x`;
+      valAnimAmp.textContent = `${sliderAnimAmp.value}%`;
+
+      // Update value tags
+      valBlur.textContent = `${blurVal}px`;
+      valFontSize.textContent = fontSizeVal;
+      valLineHeight.textContent = lineHeightVal;
+      valLetterSpacing.textContent = letterSpacingVal;
+      valWeight.textContent = weightVal;
+      valRGB.textContent = `${rgbVal}px`;
+      valSkew.textContent = `${skewVal}°`;
+      valWave.textContent = waveVal;
+      hexText.textContent = textColorVal;
+      hexBg.textContent = bgColorVal;
+
+      // Update SVG wave distortion parameters
+      feDisplacement.setAttribute('scale', waveVal * 1.5);
+      feTurbulence.setAttribute('baseFrequency', waveVal > 0 ? '0.02' : '0');
+
+      // Styling parameters
+      const filterEffect = `blur(${blurVal}px) ${waveVal > 0 ? 'url(#wave-filter)' : ''}`;
+      const transformEffect = `skewX(${skewVal}deg) rotate(${skewVal * 0.15}deg)`;
+
+      // Set rendered contents
+      textOutput.innerHTML = renderCharacterSpans(inputText.value);
+
+      // Apply to main text element
+      textOutput.style.fontFamily = fontFamilyVal;
+      textOutput.style.fontSize = fontSizeVal;
+      textOutput.style.lineHeight = lineHeightVal;
+      textOutput.style.letterSpacing = letterSpacingVal;
+      textOutput.style.fontWeight = weightVal;
+      textOutput.style.color = textColorVal;
+      textOutput.style.filter = filterEffect;
+      textOutput.style.transform = transformEffect;
+      textOutput.style.textAlign = currentTextAlign;
+
+      // Background Canvas color
+      canvasContainer.style.backgroundColor = bgColorVal;
+
+      // Sync chromatic RGB layers if enabled
+      if (rgbVal > 0) {
+        textLayerRed.style.display = 'block';
+        textLayerBlue.style.display = 'block';
+
+        const redContent = inputText.value;
+        textLayerRed.innerText = redContent;
+        textLayerBlue.innerText = redContent;
+
+        textLayerRed.style.fontFamily = fontFamilyVal;
+        textLayerRed.style.fontSize = fontSizeVal;
+        textLayerRed.style.lineHeight = lineHeightVal;
+        textLayerRed.style.letterSpacing = letterSpacingVal;
+        textLayerRed.style.fontWeight = weightVal;
+        textLayerRed.style.textAlign = currentTextAlign;
+
+        textLayerBlue.style.fontFamily = fontFamilyVal;
+        textLayerBlue.style.fontSize = fontSizeVal;
+        textLayerBlue.style.lineHeight = lineHeightVal;
+        textLayerBlue.style.letterSpacing = letterSpacingVal;
+        textLayerBlue.style.fontWeight = weightVal;
+        textLayerBlue.style.textAlign = currentTextAlign;
+
+        textLayerRed.style.transform = `${transformEffect} translate(${rgbVal}px, ${-rgbVal * 0.5}px)`;
+        textLayerBlue.style.transform = `${transformEffect} translate(${-rgbVal}px, ${rgbVal * 0.5}px)`;
+        
+        textLayerRed.style.filter = `blur(${blurVal * 0.5}px)`;
+        textLayerBlue.style.filter = `blur(${blurVal * 0.5}px)`;
+        textLayerRed.style.opacity = '0.85';
+        textLayerBlue.style.opacity = '0.85';
+      } else {
+        textLayerRed.style.opacity = '0';
+        textLayerBlue.style.opacity = '0';
+      }
+    }
+
+    // Direct content sync between textarea and preview
+    inputText.addEventListener('input', (e) => {
+      textOutput.innerHTML = renderCharacterSpans(e.target.value);
+      updateTypography();
+    });
+
+    selectAnimMode.addEventListener('change', () => {
+      updateTypography();
+      showToast(`Animation Mode: ${selectAnimMode.options[selectAnimMode.selectedIndex].text}`);
+    });
+
+    // Attach listeners to sliders & picks
+    [sliderBlur, sliderFontSize, sliderLineHeight, sliderLetterSpacing, sliderWeight, sliderRGB, sliderSkew, sliderWave, selectFont, colorText, colorBg, sliderAnimSpeed, sliderAnimAmp].forEach(element => {
+      element.addEventListener('input', updateTypography);
+    });
+
+    // Presets handler
+    function applyPreset(name) {
+      if (name === 'brutalist') {
+        sliderBlur.value = 0;
+        sliderFontSize.value = 64;
+        sliderLineHeight.value = 0.9;
+        sliderLetterSpacing.value = -3;
+        sliderWeight.value = 900;
+        sliderRGB.value = 0;
+        sliderSkew.value = -12;
+        sliderWave.value = 0;
+        selectAnimMode.value = "none";
+        selectFont.value = "'Space Grotesk', sans-serif";
+        colorText.value = "#0f172a";
+        colorBg.value = "#f1f5f9";
+      } else if (name === 'kinetic') {
+        sliderBlur.value = 8.5;
+        sliderFontSize.value = 54;
+        sliderLineHeight.value = 1.1;
+        sliderLetterSpacing.value = 8;
+        sliderWeight.value = 700;
+        sliderRGB.value = 4;
+        sliderSkew.value = 0;
+        sliderWave.value = 0;
+        selectAnimMode.value = "wave";
+        selectFont.value = "'Syne', sans-serif";
+        colorText.value = "#18181b";
+        colorBg.value = "#EAEAEA";
+      } else if (name === 'cyber') {
+        sliderBlur.value = 1;
+        sliderFontSize.value = 46;
+        sliderLineHeight.value = 1.05;
+        sliderLetterSpacing.value = 4;
+        sliderWeight.value = 800;
+        sliderRGB.value = 14;
+        sliderSkew.value = 5;
+        sliderWave.value = 0;
+        selectAnimMode.value = "glitch";
+        selectFont.value = "'Work Sans', sans-serif";
+        colorText.value = "#000000";
+        colorBg.value = "#e2e8f0";
+      } else if (name === 'wave') {
+        sliderBlur.value = 0.5;
+        sliderFontSize.value = 52;
+        sliderLineHeight.value = 1.2;
+        sliderLetterSpacing.value = 1;
+        sliderWeight.value = 600;
+        sliderRGB.value = 0;
+        sliderSkew.value = 0;
+        sliderWave.value = 28;
+        selectAnimMode.value = "breath";
+        selectFont.value = "'Playfair Display', serif";
+        colorText.value = "#1e293b";
+        colorBg.value = "#e5e7eb";
+      } else if (name === 'deconstruct') {
+        sliderBlur.value = 0;
+        sliderFontSize.value = 58;
+        sliderLineHeight.value = 1.1;
+        sliderLetterSpacing.value = 6;
+        sliderWeight.value = 800;
+        sliderRGB.value = 8;
+        sliderSkew.value = 15;
+        sliderWave.value = 10;
+        selectAnimMode.value = "chaos";
+        selectFont.value = "'UnifrakturMaguntia', cursive";
+        colorText.value = "#111827";
+        colorBg.value = "#d1d5db";
+      } else if (name === 'liquid') {
+        sliderBlur.value = 2;
+        sliderFontSize.value = 50;
+        sliderLineHeight.value = 1.15;
+        sliderLetterSpacing.value = 3;
+        sliderWeight.value = 700;
+        sliderRGB.value = 0;
+        sliderSkew.value = -5;
+        sliderWave.value = 35;
+        selectAnimMode.value = "liquid";
+        selectFont.value = "'Cinzel', serif";
+        colorText.value = "#0284c7";
+        colorBg.value = "#e0f2fe";
+      }
+      updateTypography();
+      showToast(`Applied ${name.toUpperCase()} preset`);
+    }
+
+    // Align toggle
+    function toggleAlign(align) {
+      currentTextAlign = align;
+      updateTypography();
+    }
+
+    // Blend mode toggle
+    function toggleBlendMode() {
+      const modes = ['normal', 'difference', 'multiply', 'overlay', 'exclusion'];
+      let nextIdx = (modes.indexOf(currentBlendMode) + 1) % modes.length;
+      currentBlendMode = modes[nextIdx];
+      textOutput.style.mixBlendMode = currentBlendMode;
+      document.getElementById('blend-mode-label').textContent = currentBlendMode.charAt(0).toUpperCase() + currentBlendMode.slice(1);
+      showToast(`Blend Mode: ${currentBlendMode}`);
+    }
+
+    // Reset Controls
+    function resetControls() {
+      sliderBlur.value = 0;
+      sliderFontSize.value = 48;
+      sliderLineHeight.value = 1.1;
+      sliderLetterSpacing.value = 2;
+      sliderWeight.value = 800;
+      sliderRGB.value = 0;
+      sliderSkew.value = 0;
+      sliderWave.value = 0;
+      selectAnimMode.value = "wave";
+      sliderAnimSpeed.value = 1.0;
+      sliderAnimAmp.value = 50;
+      selectFont.value = "'Syne', sans-serif";
+      colorText.value = "#111827";
+      colorBg.value = "#EAEAEA";
+      bgImageLayer.classList.add('hidden');
+      updateTypography();
+      showToast("Reset all parameters to default");
+    }
+
+    // Handle Upload button (Text or Background Image)
+    fileUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          bgImageLayer.style.backgroundImage = `url('${event.target.result}')`;
+          bgImageLayer.classList.remove('hidden');
+          showToast("Loaded background reference image");
+        };
+        reader.readAsDataURL(file);
+      } else if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          inputText.value = event.target.result;
+          updateTypography();
+          showToast("Loaded text content");
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    // Copy Generated CSS Code Snippet
+    function copyCSSCode() {
+      const code = `.experimental-type {
+  font-family: ${selectFont.value};
+  font-size: ${sliderFontSize.value}px;
+  line-height: ${sliderLineHeight.value};
+  letter-spacing: ${sliderLetterSpacing.value}px;
+  font-weight: ${sliderWeight.value};
+  color: ${colorText.value};
+  filter: blur(${sliderBlur.value}px);
+  transform: skewX(${sliderSkew.value}deg);
+  /* Animation Effect: ${selectAnimMode.value} */
+}`;
+      
+      const el = document.createElement('textarea');
+      el.value = code;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      showToast("CSS Animation Code Copied to Clipboard!");
+    }
+
+    // Capture and Download WebM Video using HTML5 Canvas & MediaRecorder
+    let isRecording = false;
+    async function recordAndDownloadVideo() {
+      if (isRecording) return;
+      isRecording = true;
+
+      const btn = document.getElementById('btn-record');
+      btn.disabled = true;
+      btn.classList.add('opacity-80');
+
+      // Create an offscreen canvas matching the container dimensions
+      const rect = canvasContainer.getBoundingClientRect();
+      const canvas = document.createElement('canvas');
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      const ctx = canvas.getContext('2d');
+
+      // Create stream from canvas (30 FPS)
+      const stream = canvas.captureStream(30);
+      let mediaRecorder;
+      const recordedChunks = [];
+
+      try {
+        const options = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+          ? { mimeType: 'video/webm;codecs=vp9' }
+          : MediaRecorder.isTypeSupported('video/webm')
+          ? { mimeType: 'video/webm' }
+          : {};
+        
+        mediaRecorder = new MediaRecorder(stream, options);
+      } catch (e) {
+        showToast("Video recording not supported on this browser.");
+        isRecording = false;
+        btn.disabled = false;
+        btn.classList.remove('opacity-80');
+        return;
+      }
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          recordedChunks.push(e.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `typographic-animation-${Date.now()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 100);
+
+        showToast("Video downloaded successfully!");
+        btn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i> Download Video`;
+        btn.disabled = false;
+        btn.classList.remove('opacity-80');
+        isRecording = false;
+        lucide.createIcons();
+      };
+
+      mediaRecorder.start();
+
+      const durationSec = 4;
+      let elapsedTime = 0;
+      const interval = 1000 / 30; // 30 fps
+
+      // Render frames to offscreen canvas during capture
+      const recordTimer = setInterval(() => {
+        elapsedTime += interval / 1000;
+        const countdown = Math.ceil(durationSec - elapsedTime);
+        btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Recording (${countdown}s)...`;
+        lucide.createIcons();
+
+        // Draw current canvas state
+        ctx.save();
+        ctx.scale(dpr, dpr);
+        ctx.fillStyle = colorBg.value;
+        ctx.fillRect(0, 0, rect.width, rect.height);
+
+        // Render main text style
+        const fontStr = `${sliderWeight.value} ${sliderFontSize.value}px ${selectFont.value}`;
+        ctx.font = fontStr;
+        ctx.fillStyle = colorText.value;
+        ctx.textAlign = currentTextAlign;
+        ctx.textBaseline = 'middle';
+
+        const lines = inputText.value.split('\n');
+        const lineHeight = parseFloat(sliderFontSize.value) * parseFloat(sliderLineHeight.value);
+        const startY = (rect.height / 2) - ((lines.length - 1) * lineHeight / 2);
+        const xPos = currentTextAlign === 'center' ? rect.width / 2 : currentTextAlign === 'right' ? rect.width - 60 : 60;
+
+        lines.forEach((line, index) => {
+          ctx.fillText(line, xPos, startY + (index * lineHeight));
+        });
+
+        ctx.restore();
+
+        if (elapsedTime >= durationSec) {
+          clearInterval(recordTimer);
+          mediaRecorder.stop();
+        }
+      }, interval);
+    }
+
+    // Simple Frame Export Notification
+    function exportImage() {
+      const canvas = document.createElement('canvas');
+      const rect = canvasContainer.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      const ctx = canvas.getContext('2d');
+
+      ctx.scale(dpr, dpr);
+      ctx.fillStyle = colorBg.value;
+      ctx.fillRect(0, 0, rect.width, rect.height);
+
+      ctx.font = `${sliderWeight.value} ${sliderFontSize.value}px ${selectFont.value}`;
+      ctx.fillStyle = colorText.value;
+      ctx.textAlign = currentTextAlign;
+      ctx.textBaseline = 'middle';
+
+      const lines = inputText.value.split('\n');
+      const lineHeight = parseFloat(sliderFontSize.value) * parseFloat(sliderLineHeight.value);
+      const startY = (rect.height / 2) - ((lines.length - 1) * lineHeight / 2);
+      const xPos = currentTextAlign === 'center' ? rect.width / 2 : currentTextAlign === 'right' ? rect.width - 60 : 60;
+
+      lines.forEach((line, index) => {
+        ctx.fillText(line, xPos, startY + (index * lineHeight));
+      });
+
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.download = `typographic-poster-${Date.now()}.png`;
+      a.href = url;
+      a.click();
+      showToast("Exported High-Res PNG Frame!");
+    }
+
+    // Toast helper function
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      toastMessage.textContent = message;
+      toast.classList.remove('opacity-0', 'translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-4');
+      }, 3000);
+    }
+
+    // Initialize application on startup
+    window.onload = function() {
+      updateTypography();
+      animateLoop();
+    };
+  </script>
+</body>
 </html>
